@@ -29,6 +29,15 @@ namespace Catalog_API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder
+					.SetIsOriginAllowed((host) => true)
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			services.AddDbContext<CatalogDBContext>();
 			services.AddSwaggerGen(c =>
@@ -63,6 +72,9 @@ namespace Catalog_API
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "CatalogAPI V1");
 			});
 
+			app.UseCors(options => options.AllowAnyOrigin());
+
+			app.UseCors("CorsPolicy");
 		}
 	}
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Catalog_API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 
 namespace Catalog_API.Controllers
 {
@@ -21,8 +22,9 @@ namespace Catalog_API.Controllers
 		}
 		//Tes
 		// GET: api/Catalog/products/{ID}
+		[EnableCors("CorsPolicy")]
 		[HttpGet("products/{id}")]
-		public async Task<List<object>> GetProducts(int id)
+		public async Task<ActionResult<object>> GetProducts(int id)
 		{
 			var products = await _context.Products.Where(p => p.ProductId == id)
 												.Select(p => new
@@ -33,23 +35,31 @@ namespace Catalog_API.Controllers
 													description = p.Description,
 													price = p.Price
 												})
-												.ToListAsync<object>();
+												.FirstAsync();
+
+			if (products == null)
+			{
+				return NotFound();
+			}
 			return products;
 		}
-
-		//[HttpGet("/{warehouseID},{productID}")]
-		//public async Task<List<object>> GetProducts(int warehouseID, int productID)
-		//{
-		//	var products = await _context.ProductsWarehouses.Where(p => p.Products == productID)
-		//										.Select(p => new
-		//										{
-		//											productID = p.ProductId,
-		//											descriptionImage = p.DescriptionImage,
-		//											description = p.Description,
-		//											price = p.Price
-		//										})
-		//										.ToListAsync<object>();
-		//	return products;
-		//}
+		[EnableCors("CorsPolicy")]
+		[HttpGet("aviability/{warehouseID},{productID}")]
+		public async Task<ActionResult<object>> GetAviability(int warehouseID, int productID)
+		{
+			var aviability = await _context.ProductsWarehouses.Where(p => p.Products == productID && p.Warehouses == warehouseID)
+												.Select(p => new
+												{
+													productID = p.Products,
+													warehouseID = p.Warehouses,
+													quantity = p.Quantity
+												})
+												.FirstAsync();
+			if (aviability == null)
+			{
+				return NotFound();
+			}
+			return aviability;
+		}
 	}
 }
