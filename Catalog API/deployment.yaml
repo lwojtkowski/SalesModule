@@ -17,3 +17,18 @@ spec:
         image: salesmodule.azurecr.io/dev
         ports:
         - containerPort: 7001
+---
+apiVarsion: v1
+kind: Service
+metadata:
+  name: catalog-service
+spec:
+  selector:
+    app: angular
+  ports:
+    - protocol: TCP
+      port: 90
+      targetPort: 80
+      nodePort: 7001
+    type: NodePort
+
