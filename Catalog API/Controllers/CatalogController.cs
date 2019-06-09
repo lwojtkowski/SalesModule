@@ -20,47 +20,6 @@ namespace Catalog_API.Controllers
 		{
 			_context = context;
 		}
-		//Tes
-		// GET: api/Catalog/products/{ID}
-		//[EnableCors("CorsPolicy")]
-		//[HttpGet("products/{id}")]
-		//public async Task<ActionResult<object>> GetProducts(int id)
-		//{
-		//	var products = await _context.Products.Where(p => p.ProductId == id)
-		//										.Select(p => new
-		//										{
-		//											productID = p.ProductId,
-		//											productType = p.ProductTypeNavigation.Type,
-		//											descriptionImage = p.DescriptionImage,
-		//											description = p.Description,
-		//											price = p.Price
-		//										})
-		//										.FirstAsync();
-
-		//	if (products == null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	return products;
-		//}
-		//[EnableCors("CorsPolicy")]
-		//[HttpGet("aviability/{warehouseID},{productID}")]
-		//public async Task<ActionResult<object>> GetAviability(int warehouseID, int productID)
-		//{
-		//	var aviability = await _context.ProductsWarehouses.Where(p => p.Products == productID && p.Warehouses == warehouseID)
-		//										.Select(p => new
-		//										{
-		//											productID = p.Products,
-		//											warehouseID = p.Warehouses,
-		//											quantity = p.Quantity
-		//										})
-		//										.FirstAsync();
-		//	if (aviability == null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	return aviability;
-		//}
 
 		[EnableCors("CorsPolicy")]
 		[HttpGet("products/{localWarehouseID},{mainWarehouseID},{productID}")]
@@ -103,6 +62,25 @@ namespace Catalog_API.Controllers
 				return NotFound();
 			}
 			return productCard;
+		}
+
+		[EnableCors("CorsPolicy")]
+		[HttpGet("aviability/{warehouseID},{productID}")]
+		public async Task<ActionResult<object>> GetAviability(int warehouseID, int productID)
+		{
+			var aviability = await _context.ProductsWarehouses.Where(p => p.Products == productID && p.Warehouses == warehouseID)
+												.Select(p => new
+												{
+													productID = p.Products,
+													warehouseID = p.Warehouses,
+													quantity = p.Quantity
+												})
+												.FirstAsync();
+			if (aviability == null)
+			{
+				return NotFound();
+			}
+			return aviability;
 		}
 	}
 }

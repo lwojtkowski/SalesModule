@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2
+ARG BUILD_CONFIGURATION=Debug
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+EXPOSE 7001
+
+WORKDIR /src
+COPY ["Catalog API/Catalog API.csproj", "Catalog API/"]
+
+RUN dotnet restore "Catalog API/Catalog API.csproj"
+COPY . .
+WORKDIR "/src/Catalog API"
+RUN dotnet build --no-restore "Catalog API.csproj" -c $BUILD_CONFIGURATION
+
+RUN echo "exec dotnet run --no-build --no-launch-profile -c $BUILD_CONFIGURATION --" > /entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

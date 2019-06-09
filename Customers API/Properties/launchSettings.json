@@ -29,14 +29,14 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/values",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "environmentVariables": {
-        "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "7004"
+        "ASPNETCORE_URLS": "https://+:443;http://+:82",
+        "ASPNETCORE_HTTPS_PORT": "7002"
       },
-      "httpPort": 53914,
+      "httpPort": 82,
       "useSSL": true,
-      "sslPort": 44368
+      "sslPort": 7002
     }
   }
 }

@@ -29,6 +29,7 @@ namespace Catalog_API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			services.AddCors(options =>
 			{
 				options.AddPolicy("CorsPolicy",
@@ -38,11 +39,10 @@ namespace Catalog_API
 					.AllowAnyHeader()
 					.AllowCredentials());
 			});
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			services.AddDbContext<CatalogDBContext>();
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new Info { Title = "CatalogAPI", Version = "v1" });
+				c.SwaggerDoc("v1", new Info { Title = "CatalogAPI Gateway", Version = "v1" });
 			});
 		}
 
@@ -64,7 +64,6 @@ namespace Catalog_API
 			app.UseStaticFiles();
 
 			app.UseSwagger();
-
 			// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
 			// specifying the Swagger JSON endpoint.
 			app.UseSwaggerUI(c =>
@@ -73,7 +72,6 @@ namespace Catalog_API
 			});
 
 			app.UseCors(options => options.AllowAnyOrigin());
-
 			app.UseCors("CorsPolicy");
 		}
 	}

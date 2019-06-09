@@ -11,7 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using Ordering_API.Models;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Ordering_API
 {
@@ -28,6 +29,20 @@ namespace Ordering_API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder
+					.SetIsOriginAllowed((host) => true)
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
+			services.AddDbContext<OrderingDBContext>();
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info { Title = "OrderingAPI", Version = "v1" });
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +60,18 @@ namespace Ordering_API
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
+			app.UseStaticFiles();
+
+			app.UseSwagger();
+			// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+			// specifying the Swagger JSON endpoint.
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderingAPI V1");
+			});
+
+			app.UseCors(options => options.AllowAnyOrigin());
+			app.UseCors("CorsPolicy");
 		}
 	}
 }

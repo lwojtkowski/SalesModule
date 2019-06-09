@@ -31,12 +31,19 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "environmentVariables": {
-        "ASPNETCORE_URLS": "https://+:443;http://+:80",
+        "ASPNETCORE_URLS": "https://+:443;http://+:81",
         "ASPNETCORE_HTTPS_PORT": "7001"
       },
-      "httpPort": 80,
+      "httpPort": 81,
       "useSSL": true,
       "sslPort": 7001
+    },
+    "Azure Dev Spaces": {
+      "commandName": "AzureDevSpaces",
+      "launchBrowser": true,
+      "resourceGroup": "AKS",
+      "aksName": "SalesModuleAPI",
+      "subscriptionId": "2da3e4ac-46ca-4124-955a-085d0b88faac"
     }
   }
 }

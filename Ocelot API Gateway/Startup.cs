@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 
 namespace Ocelot_API_Gateway
@@ -27,6 +28,10 @@ namespace Ocelot_API_Gateway
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info { Title = "OcelotAPI Gateway", Version = "v1" });
+			});
 		}
 		
 
@@ -45,7 +50,15 @@ namespace Ocelot_API_Gateway
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
-			
+
+			app.UseSwagger();
+			// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+			// specifying the Swagger JSON endpoint.
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "CatalogAPI V1");
+			});
+
 		}
 	}
 }

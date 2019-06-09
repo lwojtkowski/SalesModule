@@ -1,6 +1,10 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+
+LABEL Author="£ukasz Wojtkowski <l.wojtkowski@outlook.com>"
+LABEL Version="1.0"
+
 WORKDIR /app
-EXPOSE 80
+EXPOSE 7001
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build

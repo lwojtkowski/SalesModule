@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: catalog-api
+spec:
+  selector:
+    matchLabels:
+      app: catalog
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+      - name: dev
+        image: salesmodule.azurecr.io/dev
+        ports:
+        - containerPort: 7001
