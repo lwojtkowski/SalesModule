@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace Catalog_API.Models
 {
@@ -25,8 +26,7 @@ namespace Catalog_API.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=lwdev.database.windows.net;Database=CatalogDB;User Id=Ygg_;Password=babuszka2400!;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer("");
             }
         }
 

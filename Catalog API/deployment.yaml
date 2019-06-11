@@ -1,23 +1,3 @@
-apiVersion: v1
-kind: Deployment
-metadata:
-  name: catalog-api
-spec:
-  selector:
-    matchLabels:
-      app: catalog
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        app: catalog
-    spec:
-      containers:
-      - name: dev
-        image: salesmodule.azurecr.io/dev
-        ports:
-        - containerPort: 7001
----
 apiVarsion: v1
 kind: Service
 metadata:
@@ -26,9 +6,8 @@ spec:
   selector:
     app: angular
   ports:
-    - protocol: TCP
-      port: 90
-      targetPort: 80
-      nodePort: 7001
-    type: NodePort
-
+  - protocol: TCP
+    port: 80
+    targetPort: 7001
+    nodePort: 30001
+  type: NodePort

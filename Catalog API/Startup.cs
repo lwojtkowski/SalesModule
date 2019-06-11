@@ -39,7 +39,8 @@ namespace Catalog_API
 					.AllowAnyHeader()
 					.AllowCredentials());
 			});
-			services.AddDbContext<CatalogDBContext>();
+			services.AddDbContext<CatalogDBContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("CatalogDB")));
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "CatalogAPI Gateway", Version = "v1" });
