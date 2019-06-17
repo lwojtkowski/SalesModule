@@ -16,7 +16,6 @@ namespace Ordering_API.Controllers
 	public class OrderingController : ControllerBase
 	{
 		private readonly OrderingDBContext _context;
-		private readonly OrderingDBContext _context2;
 
 		public OrderingController(OrderingDBContext context)
 		{
@@ -47,7 +46,7 @@ namespace Ordering_API.Controllers
 		// POST: api/createDocument/
 		[EnableCors("CorsPolicy")]
 		[HttpPost("createDocument/")]
-		public async Task<ActionResult<object>> PostSalesDocument(OrderModel order)
+		public async Task<ActionResult<OrderReturn>> PostSalesDocument(OrderModel order)
 		{
 			if (order == null)
 			{
@@ -147,7 +146,14 @@ namespace Ordering_API.Controllers
 				}
 			}
 
-			return Ok($"Document created: {_salesDocuments.SalesDocumentId}");
+			var documentType = await _context.DocumentTypes.Where(p => p.DocumentTypeId == _salesDocuments.DocumentTypes)
+									  .Select(p => p.Type)
+									  .LastAsync();
+
+			return Ok(new OrderReturn { Warehouse = _salesDocuments.WarehouseId,
+										DocumentType = documentType,
+										DocumentNumber = _salesDocuments.DocumentNumber });
+
 		}
 
 		// DELETE: api/Ordering/5
@@ -208,5 +214,12 @@ namespace Ordering_API.Controllers
 		public int Quantity { get; set; }
 		public float Price { get; set; }
 		public int Punctation { get; set; }
+	}
+
+	public class OrderReturn
+	{
+		public int Warehouse { get; set; }
+		public string DocumentType { get; set; }
+		public int DocumentNumber { get; set; }
 	}
 }
