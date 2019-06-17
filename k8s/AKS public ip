@@ -1,0 +1,98 @@
+{
+  "ddosSettings": null,
+  "dnsSettings": {
+    "domainNameLabel": "ingress-nginx",
+    "fqdn": "ingress-nginx.northeurope.cloudapp.azure.com",
+    "reverseFqdn": null
+  },
+  "etag": "W/\"9ec4f468-ec6c-4137-b584-8a549b575778\"",
+  "id": "/subscriptions/2da3e4ac-46ca-4124-955a-085d0b88faac/resourceGroups/MC_AKS_SalesModuleAPI_northeurope/providers/Microsoft.Network/publicIPAddresses/kubernetes-a2774a5138d3111e9815b8ae87af1b0b",
+  "idleTimeoutInMinutes": 4,
+  "ipAddress": "23.102.51.85",
+  "ipConfiguration": {
+    "etag": null,
+    "id": "/subscriptions/2da3e4ac-46ca-4124-955a-085d0b88faac/resourceGroups/MC_AKS_SalesModuleAPI_northeurope/providers/Microsoft.Network/loadBalancers/kubernetes/frontendIPConfigurations/a2774a5138d3111e9815b8ae87af1b0b",
+    "name": null,
+    "privateIpAddress": null,
+    "privateIpAllocationMethod": null,
+    "provisioningState": null,
+    "publicIpAddress": null,
+    "resourceGroup": "MC_AKS_SalesModuleAPI_northeurope",
+    "subnet": null
+  },
+  "ipTags": [],
+  "location": "northeurope",
+  "name": "kubernetes-a2774a5138d3111e9815b8ae87af1b0b",
+  "provisioningState": "Succeeded",
+  "publicIpAddressVersion": "IPv4",
+  "publicIpAllocationMethod": "Static",
+  "publicIpPrefix": null,
+  "resourceGroup": "MC_AKS_SalesModuleAPI_northeurope",
+  "resourceGuid": "293e1f1f-937b-420c-87f1-e8e0dd81393a",
+  "sku": {
+    "name": "Basic",
+    "tier": "Regional"
+  },
+  "tags": {
+    "service": "ingress-nginx/ingress-nginx"
+  },
+  "type": "Microsoft.Network/publicIPAddresses",
+  "zones": null
+
+
+
+
+  helm install stable/nginx-ingress --namespace ingress-basic --set controller.replicaCount=2 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
+
+
+
+  rror: no available release name found
+azureuser@Azure:~$ IP="40.127.192.50"
+azureuser@Azure:~$ DNSNAME="nginx-ingress-controller-59d778d5f6-84cl8"
+azureuser@Azure:~$ PUBLICIPID=$(az network public-ip list --query "[?ipAddress!=null]|[?contains(ipAddress, '$IP')].[id]" --output tsv)
+azureuser@Azure:~$ az network public-ip update --ids $PUBLICIPID --dns-name $DNSNAME
+{
+  "ddosSettings": null,
+  "dnsSettings": {
+    "domainNameLabel": "nginx-ingress-controller-59d778d5f6-84cl8",
+    "fqdn": "nginx-ingress-controller-59d778d5f6-84cl8.northeurope.cloudapp.azure.com",
+    "reverseFqdn": null
+  },
+  "etag": "W/\"3081901c-f430-4a99-8b0d-2df2bca5960a\"",
+  "id": "/subscriptions/2da3e4ac-46ca-4124-955a-085d0b88faac/resourceGroups/MC_AKS_SalesModule_northeurope/providers/Microsoft.Network/publicIPAddresses/kubernetes-a9dcb46a28d5c11e9985a064cafbce6a",
+  "idleTimeoutInMinutes": 4,
+  "ipAddress": "40.127.192.50",
+  "ipConfiguration": {
+    "etag": null,
+    "id": "/subscriptions/2da3e4ac-46ca-4124-955a-085d0b88faac/resourceGroups/MC_AKS_SalesModule_northeurope/providers/Microsoft.Network/loadBalancers/kubernetes/frontendIPConfigurations/a9dcb46a28d5c11e9985a064cafbce6a",
+    "name": null,
+    "privateIpAddress": null,
+    "privateIpAllocationMethod": null,
+    "provisioningState": null,
+    "publicIpAddress": null,
+    "resourceGroup": "MC_AKS_SalesModule_northeurope",
+    "subnet": null
+  },
+  "ipTags": [],
+  "location": "northeurope",
+  "name": "kubernetes-a9dcb46a28d5c11e9985a064cafbce6a",
+  "provisioningState": "Succeeded",
+  "publicIpAddressVersion": "IPv4",
+  "publicIpAllocationMethod": "Static",
+  "publicIpPrefix": null,
+  "resourceGroup": "MC_AKS_SalesModule_northeurope",
+  "resourceGuid": "213514ae-da07-4b3b-a51e-1cb50c9d1566",
+  "sku": {
+    "name": "Basic",
+    "tier": "Regional"
+  },
+  "tags": {
+    "service": "test/ingress-nginx"
+  },
+  "type": "Microsoft.Network/publicIPAddresses",
+  "zones": null
+}
+azureuser@Azure:~$
+
+
+helm install --name cert-manager --namespace cert-manager --version v0.8.0 jetstack/cert-manager

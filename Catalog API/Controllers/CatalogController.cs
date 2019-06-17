@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace Catalog_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class CatalogController : ControllerBase
     {

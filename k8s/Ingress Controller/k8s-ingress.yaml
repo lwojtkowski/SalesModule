@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beat1
+kind: Ingress
+metadata:
+  name: ingress-salesmodule
+  namespace: ingress-nginx
+spec:
+  rules:
+  - http: 
+      paths:
+      - path: /catalog
+        backend:
+          serviceName: catalog-api-service
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sales-module
+  namespace: ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - ingress-nginx.northeurope.cloudapp.azure.com
+    secretName: tls-secret
+  rules:
+  - host: ingress-nginx.northeurope.cloudapp.azure.com
+    http:
+      paths:
+      - backend:
+          serviceName: catalog-api-service
+          servicePort: 80
+        path: /catalog
+
+        
+helm install --name cert-manager --namespace cert-manager --version v0.8.0 jetstack/cert-manager
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: salesmodule-ingress
+  namespace: ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: catalog-api-service
+          servicePort: 7001
+        path: /catalog

@@ -1,19 +1,18 @@
 {
 	"ReRoutes": [
 		{
-			"DownstreamPathTemplate": "/api/posts/{postId}",
+			"DownstreamPathTemplate": "/api/{everything}",
 			"DownstreamScheme": "https",
 			"DownstreamHostAndPorts": [
 				{
-					"Host": "localhost",
+					"Host": "catalog-api",
 					"Port": 80
 				}
 			],
-			"UpstreamPathTemplate": "/posts/{postId}",
-			"UpstreamHttpMethod": [ "Put", "Delete" ]
+			"UpstreamPathTemplate": "api/catalog/{everything}",
+			"UpstreamHttpMethod": [ "Post", "Put", "Get"  ]
 		}
 	],
 	"GlobalConfiguration": {
-		"BaseUrl": "https:\\localhost:6543"
 	}
 }

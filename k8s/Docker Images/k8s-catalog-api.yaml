@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalog-api
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+    spec:
+      containers:
+        - image: "salesmodule.azurecr.io/catalog-api:1.0"
+          imagePullPolicy: Always
+          name: catalog-api
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-api-service
+spec:
+  selector:
+    app: catalog-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+
+        

@@ -26,8 +26,7 @@ namespace Ordering_API.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(local);Database=OrderingDB;User Id=SA;Password=babuszka2400!;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer("");
             }
         }
 
@@ -64,7 +63,7 @@ namespace Ordering_API.Models
             modelBuilder.Entity<Customers>(entity =>
             {
                 entity.HasKey(e => e.CustomerId)
-                    .HasName("PK__Customer__A4AE64B84525CEC4");
+                    .HasName("PK__Customer__A4AE64B864DF3C47");
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
@@ -86,7 +85,7 @@ namespace Ordering_API.Models
             modelBuilder.Entity<DocumentTypes>(entity =>
             {
                 entity.HasKey(e => e.DocumentTypeId)
-                    .HasName("PK__Document__DBA390C1C1B47DB5");
+                    .HasName("PK__Document__DBA390C14EDB1540");
 
                 entity.Property(e => e.DocumentTypeId).HasColumnName("DocumentTypeID");
 
@@ -107,7 +106,7 @@ namespace Ordering_API.Models
             modelBuilder.Entity<SalesDocuments>(entity =>
             {
                 entity.HasKey(e => e.SalesDocumentId)
-                    .HasName("PK__SalesDoc__EC345F70441D0DDD");
+                    .HasName("PK__SalesDoc__EC345F70632D674A");
 
                 entity.Property(e => e.SalesDocumentId).HasColumnName("SalesDocumentID");
 
@@ -141,7 +140,7 @@ namespace Ordering_API.Models
             modelBuilder.Entity<SalesDocumentsProduct>(entity =>
             {
                 entity.HasKey(e => new { e.SalesDocuments, e.Product })
-                    .HasName("PK__SalesDoc__8E78FB42CE2E74AE");
+                    .HasName("PK__SalesDoc__8E78FB4220FC77A1");
 
                 entity.ToTable("SalesDocuments_Product");
 

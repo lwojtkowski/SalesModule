@@ -1,0 +1,24 @@
+AKS_RESOURCE_GROUP=AKS
+AKS_CLUSTER_NAME=SalesModule
+ACR_RESOURCE_GROUP=AKS
+ACR_NAME=SalesModule
+
+# Get the id of the service principal configured for AKS
+CLIENT_ID=$(az aks show --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --query "servicePrincipalProfile.clientId" --output tsv)
+
+# Get the ACR registry resource id
+ACR_ID=$(az acr show --name $ACR_NAME --resource-group $ACR_RESOURCE_GROUP --query "id" --output tsv)
+
+# Create role assignment
+az role assignment create --assignee $CLIENT_ID --role acrpull --scope $ACR_ID
+
+{
+  "canDelegate": null,
+  "id": "/subscriptions/2da3e4ac-46ca-4124-955a-085d0b88faac/resourceGroups/AKS/providers/Microsoft.ContainerRegistry/registries/SalesModule/providers/Microsoft.Authorization/roleAssignments/46d3b48d-48d1-4382-ab86-91100884f852",
+  "name": "46d3b48d-48d1-4382-ab86-91100884f852",
+  "principalId": "eb743eed-9064-469a-8b89-6d48067b2873",
+  "resourceGroup": "AKS",
+  "roleDefinitionId": "/subscriptions/2da3e4ac-46ca-4124-955a-085d0b88faac/providers/Microsoft.Authorization/roleDefinitions/7f951dda-4ed3-4680-a7ca-43fe172d538d",
+  "scope": "/subscriptions/2da3e4ac-46ca-4124-955a-085d0b88faac/resourceGroups/AKS/providers/Microsoft.ContainerRegistry/registries/SalesModule",
+  "type": "Microsoft.Authorization/roleAssignments"
+}

@@ -38,7 +38,8 @@ namespace Ordering_API
 					.AllowAnyHeader()
 					.AllowCredentials());
 			});
-			services.AddDbContext<OrderingDBContext>();
+			services.AddDbContext<OrderingDBContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("OrderingDB")));
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "OrderingAPI", Version = "v1" });
