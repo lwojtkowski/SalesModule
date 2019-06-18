@@ -8,16 +8,13 @@ namespace Ordering_API.Models
 	public class OrderModel
 	{
 		public int DocumentType { get; set; }
-		public int MyProperty { get; set; }
 		public CustomerTemp CustomerData { get; set; }
 		public AddressTemp AddressData { get; set; }
 		public int WarehouseID { get; set; }
-		public int DocumentNumber { get; set; }
 		public int BasketID { get; set; }
 		public int UserID { get; set; }
-		public DateTime CreationDate { get; set; }
-		public DateTime OrderDate { get; set; }
-		public ProductTemp[] Products { get; set; }
+		public string OrderDate { get; set; }
+		public List<ProductTemp> Products { get; set; }
 	}
 
 	public class CustomerTemp
@@ -30,8 +27,6 @@ namespace Ordering_API.Models
 
 	public class AddressTemp
 	{
-		public int AddressId { get; set; }
-		public string Province { get; set; }
 		public string Zipcode { get; set; }
 		public string City { get; set; }
 		public string Street { get; set; }
@@ -46,5 +41,12 @@ namespace Ordering_API.Models
 		public int Quantity { get; set; }
 		public float Price { get; set; }
 		public int Punctation { get; set; }
+	}
+
+	public class OrderReturn
+	{
+		public int Warehouse { get; set; }
+		public string DocumentType { get; set; }
+		public int DocumentNumber { get; set; }
 	}
 }

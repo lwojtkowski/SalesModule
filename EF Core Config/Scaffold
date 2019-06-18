@@ -1,0 +1,6 @@
+
+Scaffold-DbContext "Server=lwdev.database.windows.net;Database=CatalogDB;User Id=Ygg_;Password=babuszka2400!;MultipleActiveResultSets=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Scaffold-DbContext "Server=lwdev.database.windows.net;Database=CustomersDB;User Id=Ygg_;Password=babuszka2400!;MultipleActiveResultSets=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Scaffold-DbContext "Server=lwdev.database.windows.net;Database=OrderingDB;User Id=Ygg_;Password=babuszka2400!;MultipleActiveResultSets=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models

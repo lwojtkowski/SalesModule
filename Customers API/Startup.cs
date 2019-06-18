@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,8 @@ namespace Customers_API
 					.AllowAnyHeader()
 					.AllowCredentials());
 			});
-			services.AddDbContext<CustomersDBContext>();
+			services.AddDbContext<CustomersDBContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("CustomersDB")));
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "CustomerAPI", Version = "v1" });

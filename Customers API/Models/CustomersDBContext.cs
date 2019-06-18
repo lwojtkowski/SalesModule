@@ -23,8 +23,7 @@ namespace Customers_API.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(local);Database=CustomersDB;User Id=SA;Password=babuszka2400!;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer("");
             }
         }
 
@@ -35,8 +34,6 @@ namespace Customers_API.Models
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
-
-                entity.Property(e => e.AddressId).HasColumnName("AddressID");
 
                 entity.Property(e => e.Email).HasMaxLength(70);
 
@@ -82,7 +79,7 @@ namespace Customers_API.Models
             modelBuilder.Entity<CustomerCustomerAddress>(entity =>
             {
                 entity.HasKey(e => new { e.Customer, e.CustomerAddress })
-                    .HasName("PK__Customer__B00D1EA0E0989061");
+                    .HasName("PK__Customer__B00D1EA05037ED4B");
 
                 entity.ToTable("Customer_CustomerAddress");
 
