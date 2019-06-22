@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: customers-api
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: customers-api
+    spec:
+      containers:
+        - image: "salesmodule.azurecr.io/customers-api:1.0"
+          imagePullPolicy: Always
+          name: customers-api
+          ports:
+            - containerPort: 80

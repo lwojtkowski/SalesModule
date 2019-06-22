@@ -1,0 +1,101 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalog-api
+  namespace: test
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+    spec:
+      containers:
+        - image: "salesmodule.azurecr.io/catalog-api:1.0"
+          imagePullPolicy: Always
+          name: catalog-api
+          ports:
+            - containerPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: customers-api
+  namespace: test
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: customers-api
+    spec:
+      containers:
+        - image: "salesmodule.azurecr.io/customers-api:1.0"
+          imagePullPolicy: Always
+          name: customers-api
+          ports:
+            - containerPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ordering-api
+  namespace: test
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ordering-api
+    spec:
+      containers:
+        - image: "salesmodule.azurecr.io/ordering-api:1.0"
+          imagePullPolicy: Always
+          name: ordering-api
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-api-service
+  namespace: test
+spec:
+  type: NodePort
+  selector:
+    app: catalog-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customers-api-service
+  namespace: test
+spec:
+  type: NodePort
+  selector:
+    app: customers-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ordering-api-service
+  namespace: test
+spec:
+  type: NodePort
+  selector:
+    app: ordering-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80 

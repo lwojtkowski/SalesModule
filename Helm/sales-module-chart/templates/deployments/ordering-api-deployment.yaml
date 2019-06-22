@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ordering-api
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ordering-api
+    spec:
+      containers:
+        - image: "salesmodule.azurecr.io/ordering-api:1.0"
+          imagePullPolicy: Always
+          name: ordering-api
+          ports:
+            - containerPort: 80

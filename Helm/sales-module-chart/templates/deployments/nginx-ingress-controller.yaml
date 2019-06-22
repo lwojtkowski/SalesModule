@@ -1,3 +1,4 @@
+
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -12,6 +13,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: tcp-services
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
  
@@ -20,6 +22,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: udp-services
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
 
@@ -28,6 +31,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: nginx-ingress-serviceaccount
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
 
@@ -36,6 +40,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: nginx-ingress-role
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
 rules:
@@ -127,6 +132,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: nginx-ingress-role-binding
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
 roleRef:
@@ -141,6 +147,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: default-http-backend
+  namespace: {{ .Values.namespace }}
   labels:
     app: default-http-backend
 spec:
@@ -175,6 +182,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: default-http-backend
+  namespace: {{ .Values.namespace }}
   labels:
     app: default-http-backend
 spec:
@@ -188,10 +196,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-ingress-controller
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: ingress-nginx
@@ -270,6 +279,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: ingress-nginx-network-policy
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
 spec:
@@ -284,6 +294,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: default-http-backend-network-policy
+  namespace: {{ .Values.namespace }}
 spec:
   podSelector:
     matchLabels:
@@ -295,6 +306,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ingress-nginx
+  namespace: {{ .Values.namespace }}
   labels:
     app: ingress-nginx
 spec:

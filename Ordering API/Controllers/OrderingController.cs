@@ -66,10 +66,15 @@ namespace Ordering_API.Controllers
 				_customer.Surname = order.CustomerData.Surname;
 				_customer.PhoneNumber = order.CustomerData.PhoneNumber;
 				_customer.Email = order.CustomerData.Email;
-			}
 
-			_context.Customers.Add(_customer);
-			
+				_context.Customers.Add(_customer);
+				await _context.SaveChangesAsync();
+				_salesDocuments.Customer = _customer.CustomerId;
+			}
+			else
+			{
+				_salesDocuments.Customer = null;
+			}
 
 			if (order.AddressData != null)
 			{
@@ -78,18 +83,20 @@ namespace Ordering_API.Controllers
 				_address.Street = order.AddressData.Street;
 				_address.BuildingNumber = order.AddressData.BuildingNumber;
 				_address.ApartmentNumber = order.AddressData.ApartmentNumber;
+
+				_context.Address.Add(_address);
+				await _context.SaveChangesAsync();
+				_salesDocuments.CustomerAddress = _address.AddressId;
 			}
-
-			_context.Address.Add(_address);
-
-			await _context.SaveChangesAsync();
+			else
+			{
+				_salesDocuments.CustomerAddress = null;
+			}
 
 			int documentNumber =  await _context.SalesDocuments.Where(p => p.WarehouseId == order.WarehouseID && p.DocumentTypes == order.DocumentType)
 															   .Select(p => p.DocumentNumber)
 															   .LastAsync();
-
-			_salesDocuments.Customer = _customer.CustomerId;
-			_salesDocuments.CustomerAddress = _address.AddressId;
+		
 			_salesDocuments.DocumentTypes = order.DocumentType;
 			_salesDocuments.WarehouseId = order.WarehouseID;
 			_salesDocuments.DocumentNumber = documentNumber + 1;
